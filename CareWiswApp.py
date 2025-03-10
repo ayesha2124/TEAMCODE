@@ -7,7 +7,7 @@ api_key = os.getenv("GOOGLE_API_KEY")
 
 # Check if API key is available
 if not api_key:
-    st.error("❌ API Key is missing! Please set GOOGLE_API_KEY in your environment variables.")
+    st.error(" API Key is missing! Please set GOOGLE_API_KEY in your environment variables.")
     st.stop()  # Stop execution if API key is missing
 
 # Configure Generative AI with API key
@@ -19,7 +19,7 @@ def list_available_models():
         models = list(palm.list_models())
         return models
     except Exception as e:
-        st.error(f"❌ Error listing models: {str(e)}")
+        st.error(f" Error listing models: {str(e)}")
         return []
 
 def get_symptom_advice(symptom_description, model_name):
@@ -29,7 +29,7 @@ def get_symptom_advice(symptom_description, model_name):
         response = model.generate_content(symptom_description)
         return response.text if response else "⚠️ No advice generated."
     except Exception as e:
-        return f"❌ An error occurred: {str(e)}"
+        return f" An error occurred: {str(e)}"
 
 # Streamlit UI
 st.set_page_config(page_title="CareWise AI", page_icon="🏥", layout="wide")
@@ -60,7 +60,7 @@ user_input = st.text_area(
 # Button to get medical advice
 if st.button("Get Medical Advice", use_container_width=True):
     if user_input:
-        with st.spinner("🔍 Generating advice... Please wait."):
+        with st.spinner(" Generating advice... Please wait."):
             models = list_available_models()
 
             if models:
@@ -68,16 +68,16 @@ if st.button("Get Medical Advice", use_container_width=True):
                     (m.name for m in models if 'gemini-1.5-pro-latest' in m.name), models[0].name
                 )
 
-                st.write(f"✨ Using model: {preferred_model}")
+                st.write(f" Using model: {preferred_model}")
 
                 # Get AI advice based on symptoms
                 advice = get_symptom_advice(user_input, preferred_model)
-                st.subheader("💡 AI's Suggestion:")
+                st.subheader(" AI's Suggestion:")
                 st.success(advice)  # Styled output
             else:
-                st.error("❌ No models available. Please check your credentials or GCP settings.")
+                st.error(" No models available. Please check your credentials or GCP settings.")
     else:
-        st.warning("⚠️ Please enter your symptoms for analysis.")
+        st.warning(" Please enter your symptoms for analysis.")
 
 # Footer
 st.markdown("""
